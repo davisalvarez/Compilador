@@ -1,0 +1,1 @@
+count0 AH 1H A0 do 2589 -1 while -257 

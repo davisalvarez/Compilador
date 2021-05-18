@@ -1,0 +1,24 @@
+COMPILER MyCOCOR
+(.//Especificacion de Funciones.)
+CHARACTERS
+
+letter= "ABCDEFGHIJKLMNÑOPQRSTUVWXYZabcdefghijklmnñopqrstuvwxyz".
+digit= "0123456789".
+
+cr = CHR(13).
+lf = CHR(10).
+tab = CHR(9).
+ignore = cr+lf+tab.
+comillas = CHR(34).
+operadores ="+-=()[]{}|.<>".
+stringletter = ANY-comillas-ignore.
+MyANY = ANY-operadores.
+
+TOKENS
+
+string = comillas stringletter{stringletter} comillas.
+
+IGNORE SET ignore
+
+
+END MyCOCOR

@@ -1,0 +1,28 @@
+(a|b)c*           ->  ab|c* 
+(aa*)|(bb*)       ->  aa*bb*|
+
+
+Expresiones Regulares:
+
+(a|b)*abb
+
+(a|b)*a(a|b)(a|b)+    	Si
+((1?)*)*		Si
+(a|ε)b(a+)c?		Si
+(1|0)+001		Si
+(εa|εb)*abb		Si
+Cadenas a evaluar:
+
+"bbbabbb" "abc"
+"1" "abc"
+"abc" "ced"
+"1001" "001"
+"abccccccc" "101"
+"abb" "ab123"
+
+Recuperación de Errores
+
+(a|b*a(a|b)(a|b)+
+((1?)**
+(a|ε)b(a+c?
+(εa|εb)*ab)b
