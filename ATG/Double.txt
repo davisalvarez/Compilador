@@ -1,1 +1,3 @@
-while 278 0.001 22.6 do \n
+while \t\n\t\n\t\n 278 0.001
+
+22.6 do \n

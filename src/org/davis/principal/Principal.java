@@ -35,7 +35,7 @@ public class Principal {
         crudA.writeAutomata("primero", a);
         a.tostring();*/
 
-        String name= "Aritmetica";
+        String name= "CoCoL";
         LA.analizar("ATG/"+name+".ATG", "ATG/"+name+".txt");
 
 

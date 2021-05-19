@@ -177,18 +177,21 @@ public class ATGManager {
                     if (can.equals("9")){//Tab
                         //re = re + '\t';
                         //System.out.println("aqui-"+'\t'+"- aqui");
-                        re = re + Character.toString(9);
+                        //re = re + Character.toString(9);
+                        re = re + "(\\·t)";
                     }else if (can.equals("10")){//salto de linea
                         //re = re + '\n';
                         //System.out.println("aqui-"+'\n'+"- aqui");
-                        re = re + Character.toString(10);
+                        //re = re + Character.toString(10);
+                        re = re + "(\\·n)";
                     }else if (can.equals("13")){//errores
                         // re = re + '\r';
-                        re = re + Character.toString(9);
+                        //re = re + Character.toString(9);
+                        re = re + "(\\·r)";
                         //System.out.println("aqui- "+'\r'+" - aqui13");
                     }else if (can.equals("34")){ // comillas
-                        //re = re + '"';
-                        re = re + Character.toString(34);
+                        re = re + '"';
+                        //re = re + Character.toString(34);
                         //System.out.println("aqui-"+'"'+"- aqui");
                     }
 
@@ -198,12 +201,12 @@ public class ATGManager {
                 System.out.println(re);*/
             }
 
-            tup.setName(chr.getName());
+/*            tup.setName(chr.getName());
             tup.setContent(re);
             tup.setCheck(true);
-            this.myCOCO.addCaracteres(tup);
+            this.myCOCO.addCaracteres(tup);*/
             anyList.add(new Tupla(chr.getName(), re, true));
-            //this.myCOCO.addCaracteres(new Tupla(chr.getName(), re, true));
+            this.myCOCO.addCaracteres(new Tupla(chr.getName(), re, true));
 
         }
         //this.pintTupla(myCOCO.getCaracter());
