@@ -15,7 +15,7 @@ public class LexicalAnalyzer {
 
         ArrayList<Automata>  fighterZ = atg.procesarATG(flm.readATG(pathCoCoL));
 
-        ArrayList<String> script = flm.readLATest(pathTest);
+/*        ArrayList<String> script = flm.readLATest(pathTest);
 
 
         String tkn = "";
@@ -64,7 +64,7 @@ public class LexicalAnalyzer {
 
 
             }
-        }
+        }*/
 
     }
 }

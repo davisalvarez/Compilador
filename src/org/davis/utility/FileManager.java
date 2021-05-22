@@ -81,6 +81,7 @@ public class FileManager {
         String[] info;
         int choose=0;
         boolean go =false;
+        ArrayList<String> prePro = new ArrayList<>();
 
         Scanner myReader = null;
         try {
@@ -111,6 +112,9 @@ public class FileManager {
                     }else if (info[0].matches("IGNORE")){
                         choose = 6;
                         go =true;
+                    }else if (info[0].matches("PRODUCTIONS")){
+                        choose = 7;
+                        go =false;
                     }
                     if(go) {
                         try {
@@ -152,6 +156,12 @@ public class FileManager {
                                     //System.out.println(info[1]);
                                     nCOCO.addTokenFake(new Tupla(info[0].trim(), info[2].trim()));
                                     break;
+                                case 7:
+                                    //System.out.println(info[0]);
+                                    //System.out.println(info[1]);
+                                    //nCOCO.addProductionFake(data);
+                                    prePro.add(data);
+                                    break;
                                 default:
                                     // code block
                             }
@@ -165,6 +175,8 @@ public class FileManager {
             System.out.println("NO se encontro el archivos '" + filePath + "'.");
             e.printStackTrace();
         }
+
+        nCOCO.setProductionFake(this.prepareProduction(prePro));
         return nCOCO;
     }
 
@@ -184,6 +196,87 @@ public class FileManager {
             e.printStackTrace();
         }
         return cadena;
+    }
+
+    public ArrayList<String> prepareProduction(ArrayList<String> lista){
+
+        ArrayList<String> productions = new ArrayList<>();
+        String cadena="";
+        for (String linea: lista) {
+            char symbol;
+
+            for (int i = 0; i < linea.length(); ++i) {
+                symbol = linea.charAt(i);
+
+                cadena = cadena + symbol;
+
+                if (symbol == '.'){
+                    try {
+                        char cha = linea.charAt(i+1);
+                    }catch (IndexOutOfBoundsException e){
+                        //System.out.println(cadena);
+                        productions.add(cadena);
+                        cadena = "";
+                    }
+                }
+
+            }
+        }
+        lista.clear();
+        for (String linea: productions){
+            linea = linea + "$";
+            char symbol;
+            cadena = "";
+            for(int i=0; i<linea.length(); ++i) {
+                symbol = linea.charAt(i);
+
+                if (symbol =='$') break;
+
+                if (symbol !='=' &&
+                        symbol !='<' &&
+                        symbol !='('){
+                    cadena = cadena + symbol ;
+                }
+
+                if (symbol =='<'){
+
+                    cadena = cadena + "█";
+                    char n1 = symbol;
+                    while (n1 !='>' ){
+                        cadena = cadena + n1;
+                        ++i;
+                        n1 = linea.charAt(i);
+                    }
+                    cadena = cadena + ">█";
+                    continue;
+                }
+                if (symbol =='(' && linea.charAt(i+1) =='.'){
+
+                    cadena = cadena + "█";
+                    char n1 = symbol;
+                    char n2 = ' ';
+                    while (n1 !='.' || n2 !=')'){
+                        cadena = cadena + n1;
+                        ++i;
+                        n1 = linea.charAt(i);
+                        n2 = linea.charAt(i+1);
+                    }
+                    ++i;
+                    cadena = cadena + ".)█";
+                    continue;
+                }
+
+                if (symbol =='='){
+                        cadena = cadena + "█" + symbol;
+                        cadena = cadena + "█";
+                    continue;
+                }
+
+            }
+            lista.add(cadena);
+            //System.out.println("->"+cadena);
+        }
+        return lista;
     }
 
 }

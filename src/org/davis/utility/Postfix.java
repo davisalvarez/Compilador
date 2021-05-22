@@ -4,10 +4,6 @@ package org.davis.utility;
     Diseño de Lenguajes de Programación
     Davis Alvarez - 15842
  */
-import org.davis.grammar.TokenD;
-
-import java.io.*;
-import java.util.ArrayList;
 
 class Stack {
     char a[]=new char[1000];

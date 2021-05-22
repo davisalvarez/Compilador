@@ -1,8 +1,6 @@
 package org.davis.bean.automata;
 
-import org.davis.bean.automata.QState;
-import org.davis.bean.automata.Transition;
-import org.davis.grammar.TokenD;
+import org.davis.bean.grammar.TokenD;
 
 import java.util.ArrayList;
 import java.util.Stack;

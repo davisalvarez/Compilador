@@ -1,4 +1,4 @@
-package org.davis.grammar;
+package org.davis.bean.grammar;
 
 public class TokenD {
     public static final int P1 = 7;

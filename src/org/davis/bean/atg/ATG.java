@@ -1,6 +1,6 @@
 package org.davis.bean.atg;
 
-import org.davis.grammar.TokenD;
+import org.davis.bean.grammar.TokenD;
 
 import java.util.ArrayList;
 
@@ -10,12 +10,14 @@ public class ATG {
     private ArrayList<Tupla> keyword;
     private ArrayList<Tupla> tokenFake;
     private ArrayList<TokenD> token;
+    private ArrayList<String> productionFake;
 
     public ATG(){
         this.caracter = new ArrayList<>();
         this.keyword = new ArrayList<>();
         this.tokenFake = new ArrayList<>();
         this.token = new ArrayList<>();
+        this.productionFake = new ArrayList<>();
     }
 
     public String getCompailer() {
@@ -33,6 +35,7 @@ public class ATG {
     public void setCaracter(ArrayList<Tupla> caracter) {
         this.caracter = caracter;
     }
+
     public void addCaracteres(Tupla caracter){
         this.caracter.add(caracter);
     }
@@ -52,6 +55,7 @@ public class ATG {
     public void addTokenFake(Tupla nueva){
         this.tokenFake.add(nueva);
     }
+
     public void addToken(TokenD nuevo){
         this.token.add(nuevo);
     }
@@ -70,6 +74,18 @@ public class ATG {
 
     public void setToken(ArrayList<TokenD> token) {
         this.token = token;
+    }
+
+    public ArrayList<String> getProductionFake() {
+        return productionFake;
+    }
+
+    public void setProductionFake(ArrayList<String> production) {
+        this.productionFake = production;
+    }
+
+    public void addProductionFake(String nueva){
+        this.productionFake.add(nueva);
     }
 }
 
