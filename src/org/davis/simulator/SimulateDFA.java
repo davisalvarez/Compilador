@@ -16,6 +16,7 @@ public class SimulateDFA {
 
     public boolean simularDFA(String cadena, Automata DFA){
         int cont = 0;
+        //System.out.println("Simulando cadema: "+ cadena); // <----------------
         cadena = cadena + "ø";
 
         ArrayList<QState> S = new ArrayList<>();

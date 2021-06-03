@@ -1,2 +1,2 @@
-while  \\n    while2	    mare
+while  \n    while2	    mare
 if0    	if              587    while

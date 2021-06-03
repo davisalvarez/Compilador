@@ -54,7 +54,7 @@ Factor<ref double result> =		(.double sign=1;.)
 	.
 
 Number<ref double result> =
-	(number
+	( number
 	|decnumber)(.result = double.Parse(LastToken.Value);.)
 	.
 END Double

@@ -19,30 +19,31 @@ public class ATGManager {
 
     private ATG myCOCO;
     private ATG coco;
+    private ArrayList<Tupla> tokenPro;
 
-    public ATGManager(){}
+    public ATGManager(){
+        this.tokenPro = new ArrayList<>();
+    }
 
     public ArrayList<Automata> procesarATG(ATG coco){
         DirectAutomataBuilder davisHace2 = new DirectAutomataBuilder();
         this.myCOCO = new ATG();
         this.coco = coco;
-/*        this.procesarCARACTERS();
+        this.procesarCARACTERS();
         this.procesarKEYWORDS();
-        this.procesarTOKEN();*/
-        //this.procesarPRODUCTION();
-        this.preProcesarProduction();
+        this.procesarTOKEN();
+        this.procesarPRODUCTION();
 
         ArrayList<Automata> unicron = new ArrayList<>();
         Automata a;
 
-/*        for (TokenD tok: myCOCO.getToken()){
-            System.out.println(tok.getName());
-            System.out.println(tok.getLexeme());
+        for (TokenD tok: myCOCO.getToken()){
+/*            System.out.println(tok.getName());
+            System.out.println(tok.getLexeme());*/
             a = davisHace2.REtoDFA(tok.getLexeme(), false);
             a.setToken(tok);
             unicron.add(a);
-        }*/
-
+        }
 
         return unicron;
     }
@@ -355,68 +356,151 @@ public class ATGManager {
     }
 
     public void procesarPRODUCTION(){
-        for (String prod: this.coco.getProductionFake()){
-            System.out.println(prod);
-
-            char symbol;
+        this.preProcesarProduction();
+        for (Tupla chr: this.tokenPro){
+/*            System.out.println("_______________________________________________");
+            System.out.println(chr.getName());
+            System.out.println(chr.getContent());*/
+            ArrayList<TokenD> tempD = new ArrayList<>();
             String cadena = "";
-            for(int i=0; i<prod.length(); ++i) {
+            char symbol;
+            String spec = chr.getContent();
 
-                symbol = prod.charAt(i);
-                cadena = cadena + symbol ;
 
-                if (symbol =='<'){
-                    cadena =  cadena.replace("<", "");
-                    System.out.println(cadena.trim());
-                    cadena ="";
-
-                    String exp ="";
-                    ++i;
-                    symbol = prod.charAt(i);
-                    while (symbol !='>'){
-                        exp = exp + symbol;
-                        ++i;
-                        symbol = prod.charAt(i);
+            if (chr.getName().equals("IGNORE")){
+                String[] tex=  chr.getContent().split(" ");
+                for (String s: tex){
+                    Tupla tp = getCaracterPro(s.trim());
+                    if (tp != null){
+                        TokenD tk2 = new TokenD();
+                        tk2.setName(tp.getName());
+                        tk2.setLexeme(tp.getContent());
+                        tempD.add(tk2);
                     }
-                    System.out.println("-<"+exp+">-");
-                }else if (symbol =='(' && prod.charAt(i+1)=='.'){
-                    cadena =  cadena.replace("(", "");
-                    System.out.println(cadena.trim());
-                    cadena ="";
-
-                    String exp ="";
-                    ++i;
-                    symbol = prod.charAt(i);
-                    while (symbol !='>'){
-                        exp = exp + symbol;
-                        ++i;
-                        symbol = prod.charAt(i);
-                    }
-                    System.out.println("-<"+exp+">-");
                 }
-
-
+                //this.pintTokenlist(tempD);
+                continue;
             }
 
+            for(int i=0; i<spec.length(); ++i) {
+                symbol = spec.charAt(i);
+                cadena = cadena + symbol ;
+
+                //System.out.print(symbol);
+                Tupla tp = getCaracterPro(cadena.trim());
+                if (tp != null){
+                    TokenD tk = new TokenD();
+                    tk.setName(tp.getName());
+                    tk.setLexeme("("+tp.getContent()+")");
+                    tempD.add(tk);
+                    if (spec.charAt(i+1)!='.' &&
+                            //spec.charAt(i+1)!=' ' &&
+                            spec.charAt(i+1)!='[' &&
+                            spec.charAt(i+1)!=']' &&
+                            spec.charAt(i+1)!='}' &&
+                            spec.charAt(i+1)!='|' &&
+                            spec.charAt(i+1)!='{' &&
+                            spec.charAt(i+2)!='E'){
+                        tempD.add(new TokenD("·", "·", Nodo.NCAT));
+                    }
+
+                    cadena = "";
+                }else if (symbol =='\"'){
+                    ++i;
+                    String ter="";
+                    while (spec.charAt(i)!='\"'){
+                        char temp = spec.charAt(i);
+                        if (temp =='(') temp = '«';
+                        else if (temp==')') temp = '»';
+                        else if (temp=='+') temp = '┼';
+                        else if (temp=='|') temp = '┤';
+                        ter=ter+ temp;
+                        ++i;
+                        if (i<spec.length()){
+                            if (spec.charAt(i)!='\"'){
+                                ter = ter +"·";
+                            }
+                        }
+                    }
+                    if (i+1<spec.length()){
+                        if (spec.charAt(i+1)!='.' && spec.charAt(i+1)!=' ' && spec.charAt(i+1)!='[' && spec.charAt(i+1)!=']'){
+                            ter = ter +"·";
+                        }
+                    }
+                    //System.out.println("ter: "+ter);
+                    tempD.add(new TokenD(ter, ter, Nodo.NTERMINAL));
+
+                    cadena = "";
+
+                }else if (symbol =='{'){
+                    if (i>0) tempD.add(new TokenD("·", "·", Nodo.NCAT));
+                    tempD.add(new TokenD("(", "(", TokenD.P1));
+                    cadena = "";
+                }else if (symbol =='}'){
+                    tempD.add(new TokenD(")", ")", TokenD.P2));
+                    tempD.add(new TokenD("*", "*", Nodo.NKLEEN));
+                    cadena = "";
+                    if (i+1<spec.length()){
+                        if (spec.charAt(i+1)!='.' && spec.charAt(i+2)!='E'){
+                            tempD.add(new TokenD("·", "·", Nodo.NCAT));
+                        }
+                    }
+                }else if (symbol =='['){
+                    if (i>0) tempD.add(new TokenD("·", "·", Nodo.NCAT));
+                    tempD.add(new TokenD("(", "(", TokenD.P1));
+                    cadena = "";
+                }else if (symbol ==']'){
+                    tempD.add(new TokenD(")", ")", TokenD.P2));
+                    tempD.add(new TokenD("?", "?", Nodo.NQUESTION));
+                    cadena = "";
+                    if (i+1<spec.length()){
+                        if (spec.charAt(i+1)!='.' && spec.charAt(i+1)!=' '){
+                            tempD.add(new TokenD("·", "·", Nodo.NCAT));
+                        }
+                    }
+                }else if (symbol =='|'){
+                    tempD.add(new TokenD("|", "|", Nodo.NOR));
+                    cadena = "";
+                }
+            }
+
+            String re = "";
+            for (TokenD t: tempD){
+                re = re + t.getLexeme();
+                //System.out.println(re);
+            }
+            //System.out.println("re: "+re);
+            this.myCOCO.addProduccion(new TokenD(chr.getName(), re));
         }
     }
 
     public void preProcesarProduction(){
+        ArrayList<Tupla> produccion = new ArrayList<>();
         for (String prod: this.coco.getProductionFake()) {
-            System.out.println("________________________________________");
-            System.out.println(prod);
+            //System.out.println(prod);
+            String pro = "";
             String[] lista = prod.split("█");
 
             for (String linea: lista){
                 linea = linea.trim();
                 if (linea.length() !=0){
-                    System.out.println(linea);
+                    if (!linea.startsWith("<") &&
+                    !linea.startsWith("(.")){
+                        //System.out.println("->"+linea);
+                        pro = pro + "" + linea;
+                    }
+
                 }
             }
 
-            System.out.println("________________________________________");
-        }
+            //System.out.println(pro);
 
+            String[] info = pro.split("=", 2);
+            this.tokenPro.add(new Tupla(info[0].trim(), info[1].trim()));
+
+            //produccion.add(pro);
+            //System.out.println("________________________________________");
+        }
     }
 
     public String chekCaracteres(String cadena){
@@ -443,6 +527,23 @@ public class ATGManager {
     public Tupla getCaracterANY(ArrayList<Tupla> anyList, String cadena){
 
         for (Tupla t: anyList){
+            if(t.getName().equals(cadena)) {
+                //System.out.println(t.getName());
+                return t;
+            }
+        }
+        return null;
+    }
+
+    public Tupla getCaracterPro(String cadena){
+
+        for (Tupla t: this.tokenPro){
+            if(t.getName().equals(cadena)) {
+                //System.out.println(t.getName());
+                return t;
+            }
+        }
+        for (Tupla t: this.myCOCO.getTokenFake()){
             if(t.getName().equals(cadena)) {
                 //System.out.println(t.getName());
                 return t;

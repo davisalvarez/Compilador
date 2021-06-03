@@ -16,6 +16,7 @@ public class SimulateNFA {
 
     public boolean simularNFA(String cadena, Automata NFA){
         int cont = 0;
+        System.out.println("Simulando cadema: "+ cadena);
         cadena = cadena + "ø";
 
         ArrayList<QState> S = new ArrayList<>();

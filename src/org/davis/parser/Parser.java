@@ -1,28 +1,34 @@
-package org.davis.simulator;
+package org.davis.parser;
 
 import org.davis.bean.automata.Automata;
+import org.davis.bean.automata.QState;
+import org.davis.bean.grammar.Grammar;
+import org.davis.bean.grammar.Production;
+import org.davis.bean.grammar.TokenD;
+import org.davis.simulator.SimulateDFA;
 import org.davis.utility.ATGManager;
 import org.davis.utility.FileManager;
 
 import java.util.ArrayList;
 
-public class LexicalAnalyzer {
+public class Parser {
 
-    public void analizar(String pathCoCoL, String pathTest){
+    public void parsear(){
+        Grammar grammar = new Grammar();
+
         FileManager flm = new FileManager();
         ATGManager atg = new ATGManager();
         SimulateDFA sDFA = new SimulateDFA();
 
-        ArrayList<Automata>  fighterZ = atg.procesarATG(flm.readATG(pathCoCoL));
-
-        ArrayList<String> script = flm.readLATest(pathTest);
-
+        ArrayList<Automata>  fighterZ = atg.procesarATG(flm.readATG("ATG/TheTestC#Double.ATG"));
+        ArrayList<String> script = flm.readLATest("ATG/TheTestC#Double.txt");
 
         String tkn = "";
         char symbol;
         int bl=0;
         int fw=0;
-
+        grammar.first();
+        ArrayList<TokenD> scriptT = new ArrayList<>();
         for (String cadena: script){
             if (cadena.length() == 0) continue;
             System.out.println("Cadena: "+cadena.trim());
@@ -48,6 +54,7 @@ public class LexicalAnalyzer {
                         if (pass){
                             System.out.println(" <"+androide17.getToken().getName()+">");
                             System.out.println("");
+                            scriptT.add(androide17.getToken());
                             break;
 
                         }
@@ -65,6 +72,7 @@ public class LexicalAnalyzer {
 
             }
         }
-
+        QState q = new QState(1);
     }
+
 }

@@ -26,13 +26,16 @@ public class ThompsonAutomataBuilder {
         this.kakaroto = new Automata();
     }
 
-    public Automata armarMcNaughtonYamadaThompson(String regularExpression){
+    public Automata armarMcNaughtonYamadaThompson(String regularExpression, boolean prepare){
 
         Postfix convertir = new Postfix();
         TreeBuilder bobC = new TreeBuilder();
-
-        Nodo ceiba = bobC.postfixToTree(convertir.toPostfix(convertir.prePostfix(regularExpression), true));
-
+        Nodo ceiba;
+        if (prepare){
+            ceiba = bobC.postfixToTree(convertir.toPostfix(convertir.prePostfix(regularExpression), true));
+        }else{
+            ceiba = bobC.postfixToTree(convertir.toPostfix(regularExpression, false));
+        }
         //System.out.println("Arbol: ");
         this.recorrerTree(ceiba);
 

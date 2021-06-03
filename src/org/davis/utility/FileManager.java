@@ -224,6 +224,7 @@ public class FileManager {
         }
         lista.clear();
         for (String linea: productions){
+            //System.out.println("linea: " + linea);
             linea = linea + "$";
             char symbol;
             cadena = "";
@@ -232,24 +233,6 @@ public class FileManager {
 
                 if (symbol =='$') break;
 
-                if (symbol !='=' &&
-                        symbol !='<' &&
-                        symbol !='('){
-                    cadena = cadena + symbol ;
-                }
-
-                if (symbol =='<'){
-
-                    cadena = cadena + "█";
-                    char n1 = symbol;
-                    while (n1 !='>' ){
-                        cadena = cadena + n1;
-                        ++i;
-                        n1 = linea.charAt(i);
-                    }
-                    cadena = cadena + ">█";
-                    continue;
-                }
                 if (symbol =='(' && linea.charAt(i+1) =='.'){
 
                     cadena = cadena + "█";
@@ -265,7 +248,23 @@ public class FileManager {
                     cadena = cadena + ".)█";
                     continue;
                 }
+                if (symbol !='=' &&
+                        symbol !='<'){
+                    cadena = cadena + symbol ;
+                }
 
+                if (symbol =='<'){
+
+                    cadena = cadena + "█";
+                    char n1 = symbol;
+                    while (n1 !='>' ){
+                        cadena = cadena + n1;
+                        ++i;
+                        n1 = linea.charAt(i);
+                    }
+                    cadena = cadena + ">█";
+                    continue;
+                }
                 if (symbol =='='){
                         cadena = cadena + "█" + symbol;
                         cadena = cadena + "█";

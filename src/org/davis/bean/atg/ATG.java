@@ -11,6 +11,7 @@ public class ATG {
     private ArrayList<Tupla> tokenFake;
     private ArrayList<TokenD> token;
     private ArrayList<String> productionFake;
+    private ArrayList<TokenD> production;
 
     public ATG(){
         this.caracter = new ArrayList<>();
@@ -18,6 +19,7 @@ public class ATG {
         this.tokenFake = new ArrayList<>();
         this.token = new ArrayList<>();
         this.productionFake = new ArrayList<>();
+        this.production = new ArrayList<>();
     }
 
     public String getCompailer() {
@@ -87,5 +89,15 @@ public class ATG {
     public void addProductionFake(String nueva){
         this.productionFake.add(nueva);
     }
+
+    public ArrayList<TokenD> getProduction() {
+        return production;
+    }
+
+    public void setProduction(ArrayList<TokenD> production) {
+        this.production = production;
+    }
+
+    public void addProduccion(TokenD nuevo){ this.production.add(nuevo);}
 }
 

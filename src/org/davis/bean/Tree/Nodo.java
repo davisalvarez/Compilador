@@ -21,6 +21,8 @@ public class Nodo {
     private ArrayList<Integer> fistpos;
     private ArrayList<Integer> lastpos;
 
+    public Nodo() {}
+
     public Nodo(String terminal) {
         this.tipo = Nodo.NTERMINAL;
         this.simbolo = terminal;
@@ -28,6 +30,7 @@ public class Nodo {
         this.rightC = null;
     }
 
+    //Nodo operador simple (1 child)
     public Nodo(int tipo, String simbolo, Nodo nodo) {
         this.tipo = tipo;
         this.simbolo = simbolo;
@@ -35,6 +38,7 @@ public class Nodo {
         this.rightC = null;
     }
 
+    //Nodo operador complex (2 child)
     public Nodo(int tipo, String simbolo, Nodo nodoL, Nodo nodoR) {
         this.tipo = tipo;
         this.simbolo = simbolo;
@@ -103,7 +107,7 @@ public class Nodo {
         }
     }
 
-    public void iniciarNodoRE() {
+    public void iniciarNodoRE(){
         this.id = -1;
         this.fistpos = new ArrayList<Integer>();
         this.lastpos = new ArrayList<Integer>();

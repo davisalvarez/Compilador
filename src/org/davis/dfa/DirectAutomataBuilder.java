@@ -9,10 +9,14 @@
 
 package org.davis.dfa;
 
-import com.sun.source.tree.Tree;
 import org.davis.bean.Tree.Nodo;
 import org.davis.bean.Tree.TreeBuilder;
-import org.davis.bean.automata.*;
+import org.davis.bean.automata.FollowposTable;
+import org.davis.bean.automata.REState;
+import org.davis.bean.automata.RETransition;
+import org.davis.bean.automata.Automata;
+import org.davis.bean.automata.Transition;
+import org.davis.bean.automata.INodo;
 import org.davis.utility.Postfix;
 import java.util.ArrayList;
 
